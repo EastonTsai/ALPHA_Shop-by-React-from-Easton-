@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+
+// import "./reset200802.css" //初始化 reset.css
+// import './style/main.css'
+
+//Header-jsx
+import Header from './components/header/header';
+
+//Main-jsx
+import Main from './components/main/main';
+
+//Footer-jsx
+import Footer from './components/footer/footer';
+
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div id="svg-icons-container" style={{disPlay: 'none'}}></div>
+      <Header></Header>
+      <Main></Main>
+      <Footer></Footer>
     </div>
   );
 }
