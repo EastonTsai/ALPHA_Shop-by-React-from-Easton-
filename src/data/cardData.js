@@ -1,5 +1,4 @@
-
-export const cardDate = [
+const cardDate = [
   {
     id: '1',
     name: '貓咪罐罐',
@@ -15,3 +14,4 @@ export const cardDate = [
     quantity: 1,
   },
 ]
+export default cardDate;
