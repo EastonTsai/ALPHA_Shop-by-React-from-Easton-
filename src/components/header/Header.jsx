@@ -7,7 +7,12 @@ import { ReactComponent as SvgIconLogo } from "../../files/icons/logo.svg";
 
 
 const navList = ['男款', '女款', '最新消息', '客製商品', '聯絡我們']
-const navIcons = [<SvgIconSearch/>, <SvgIconCart/>, <SvgIconMoon/>, <SvgIconSun/>]
+const navIcons = [
+  {id: 1, icon: <SvgIconSearch/>}, 
+  {id: 2, icon: <SvgIconCart/>}, 
+  {id: 3, icon: <SvgIconMoon/>}, 
+  {id: 4, icon: <SvgIconSun/>}
+]
 
 
 function Header (){
@@ -26,20 +31,20 @@ function Header (){
           <ul className="nav-list site-menu-list mr-auto">
             {
               navList.map(text =>
-                <li className="nav-item">
-              <a className="nav-link" href="#">
-                {text}
-              </a>
-            </li>
+                <li key={text} className="nav-item">
+                  <a className="nav-link" href="#">
+                    {text}
+                  </a>
+                </li>
                 )
             }
           </ul>
           <ul className="nav-list site-action-list">
             {
               navIcons.map(icon =>
-                <li className="nav-item">
+                <li key={icon.id} className="nav-item">
                   <svg className="nav-icon cursor-point">
-                    {icon}
+                    {icon.icon}
                   </svg>
                 </li>
               )

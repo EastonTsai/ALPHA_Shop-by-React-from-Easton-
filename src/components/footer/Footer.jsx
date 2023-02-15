@@ -32,12 +32,14 @@ function Footer (){
         </div>
         {
           footerSection.map( section =>
-            <section className="footer-section">
+            <section 
+            key={section.title} className="footer-section">
               <h2 className="section-title">{section.title}</h2>
               <div className="section-content">
                 {
                   section.aTag.map( aTag => 
-                    <a className="page-link" href="#">{aTag}</a>
+                    <a 
+                    key={aTag} className="page-link" href="#">{aTag}</a>
                   )
                 }
               </div>

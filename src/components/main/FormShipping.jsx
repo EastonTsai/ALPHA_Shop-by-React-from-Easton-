@@ -22,7 +22,10 @@ function FormShipping (){
           <div className="radio-box-border" />
         </label>
         <label className="radio-group col col-12" data-price={500}>
-          <input id="shipping-dhl" type="radio" name="shipping" />
+          <input 
+            id="shipping-dhl" 
+            type="radio" 
+            name="shipping" />
           <div className="radio-info">
             <div className="col col-12">
               <div className="text">DHL 貨運</div>

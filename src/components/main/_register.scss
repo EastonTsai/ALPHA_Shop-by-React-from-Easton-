@@ -70,27 +70,45 @@ section.progress-container {
         display: flex;
 
         .progress-icon {
-            display: inline-block;
-            position: relative;
             width: 24px;
             height: 24px;
             margin-right: 8px;
             border-radius: 50%;
+            border: 1px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             .text {
                 width: inherit;
                 height: inherit;
-                position: absolute;
-                top: 0px;
                 font-size: 12px;
                 font-weight: 700;
                 line-height: 24px;
                 text-align: center;
                 color: inherit;
+                
             }
             .icon {
+                display: none;
                 width: inherit;
                 height: inherit;
+            }
+        }
+        .active{
+            border: none;
+            background-color: black;
+            .text{
+                color: white;
+            }
+
+        }
+        .complete{
+            .text{
+                display: none;
+            }
+            .icon{
+                display: block;
             }
         }
         .progress-label {
@@ -101,82 +119,6 @@ section.progress-container {
     }
 }
 
-$phase-map: (1: 'address', 2: 'shipping', 3: 'credit-card');
-@for $index from 1 to 4 {
-    section.register-container[data-phase="#{$index}"] {
-        // progress-bar
-        .progress-bar {
-            &[data-order='1'] {
-                border-color: var(--done-progress-border);
-            }
-            &[data-order='2'] {
-                @if $index == 1 {
-                    border-color: var(--undone-progress-border);
-                } @else {
-                    border-color: var(--done-progress-border);
-                }
-            }
-        }
-
-        @each $key, $phase in $phase-map {
-            // progress-group
-            .progress-group[data-phase="#{$phase}"] {
-                @if $key > $index {
-                    .progress-icon {
-                        @extend %undone-icon;
-                    }
-                    .progress-label {
-                        @extend %undone-text;
-                    }
-                } @else if $key == $index {
-                    .progress-icon {
-                        @extend %current-icon;
-                    }
-                    .progress-label {
-                        @extend %current-text;
-                    }
-                } @else {
-                    .progress-icon {
-                        @extend %done-icon;
-                    }
-                    .progress-label {
-                        @extend %done-text;
-                    }
-                }
-
-                @if $phase == 'address' {
-                    .progress-icon {
-                        background-color: var(--pg-addr-bg-color);
-                        border-color: var(--pg-addr-bg-color);
-                        .text {
-                            color: var(--pg-addr-color);
-                        }
-                    }
-                }
-            }
-
-            // form
-            form[data-phase="#{$phase}"] {
-                @if $index == $key {
-                    display: flex;   
-                } @else {
-                    display: none;
-                }
-            }
-
-            // progress-control
-            & ~ section.progress-control-container {
-                .button-group[data-phase="#{$phase}"] {
-                    @if $index == $key {
-                        display: flex;   
-                    } @else {
-                        display: none;
-                    }
-                }
-            }
-        }
-    }
-}
     
 section.form-container {
     display: flex;

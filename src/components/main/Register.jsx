@@ -1,38 +1,50 @@
 import { ReactComponent as PgComleteSvg} from "../../files/icons/pg-complete.svg";
 
+function ProgressGroup ({title, step, className}){
+  return(
+    <span className="progress-group" >
+      <span className={className}>
+        <span className="text">{step}</span> 
+        <svg className="icon cursor-point">
+          <PgComleteSvg/>
+        </svg>
+      </span>
+      <span className="progress-label">{title}</span>
+    </span>
+  )
+}
 
-function Register (){
+
+function Register ({currentStep}){
+  
+  function getClassName (step){
+    if(currentStep < step){
+      return "progress-icon"
+    }else if(currentStep === step){
+      return "progress-icon active"
+    }else if(currentStep > step){
+      return "progress-icon active complete"
+    }
+  }
   return(
     <section className="progress-container col col-12">
-      <span className="progress-group" data-phase="address">
-        <span className="progress-icon">
-          <span className="text">1</span>
-          <svg className="icon cursor-point">
-            <PgComleteSvg/>
-          </svg>
-        </span>
-        <span className="progress-label">寄送地址</span>
-      </span>
-      <span className="progress-bar" data-order={1} />
-      <span className="progress-group" data-phase="shipping">
-        <span className="progress-icon">
-          <span className="text">2</span>
-          <svg className="icon cursor-point">
-            <PgComleteSvg/>
-          </svg>
-        </span>
-        <span className="progress-label">運送方式</span>
-      </span>
-      <span className="progress-bar" data-order={2} />
-      <span className="progress-group" data-phase="credit-card">
-        <span className="progress-icon">
-          <span className="text">3</span>
-          <svg className="icon cursor-point">
-            <PgComleteSvg/>
-          </svg>
-        </span>
-        <span className="progress-label">付款資訊</span>
-      </span>
+      <ProgressGroup
+        step={1}
+        title="寄送地址"
+        className={getClassName(1)}
+      />
+      <span className="progress-bar" />
+      <ProgressGroup 
+        step={2}
+        title="運送方式"
+        className={getClassName(2)}
+      />
+      <span className="progress-bar" />
+      <ProgressGroup
+        step={3}
+        title=' 付款資訊'
+        className={getClassName(3)}
+      />
     </section>
   )
 }
