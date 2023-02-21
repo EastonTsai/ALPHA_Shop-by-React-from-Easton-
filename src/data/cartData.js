@@ -1,4 +1,4 @@
-const cardDate = [
+export const cartData = [
   {
     id: '1',
     name: '貓咪罐罐',
@@ -14,4 +14,3 @@ const cardDate = [
     quantity: 1,
   },
 ]
-export default cardDate;

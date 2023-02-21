@@ -2,80 +2,72 @@ import { useState } from 'react'
 
 import { ReactComponent as MinusSvg } from "../../files/icons/minus.svg";
 import { ReactComponent as PlusSvg } from "../../files/icons/plus.svg";
-import cardData from '../../data/cardData'  //把放在 data 資料來裡的料引入
+import { cartData } from '../../data/cartData'
 
-const newCardData = cardData
 
 function Cart (){
-  const [ cardData, setCardData ] = useState(newCardData)
-  let total = getTotal() //總價不是被觸發的點而是一個結果 , 所以不記錄在 useState
+  const [ products, setProducts ] = useState(cartData)
+  const total = getTotal()
   
-  function getTotal (){ // 計算總價
+  function getTotal (){//從 products 裡面計算總價 (小計)
     let price = 0
-    cardData.forEach( project => {
-      price += ( project.price * project.quantity)
+    products.forEach( p => {
+      price += ( p.price * p.quantity )
     })
     return price
   }
-  function filterCartData (id){ // 刪除 cardData 的項目
-    return cardData.filter( project => project.id !== id)
+  function handlePlus (id){
+    setProducts(
+      products.map( p => {
+      if(p.id === id){ p.quantity += 1 }
+      return p
+    })
+    )
   }
-  function checkQuantity (id){ // 確認數量有沒有大於 1
-    return cardData.find( project => project.id === id).quantity <= 1 ? false : true
-  }
-  function plusQuantity (id){ // 數量加 1
-    let products = cardData.slice()
-    products.find( product => product.id === id).quantity += 1
-    setCardData(products)
-  }
-  function minusQuantity (id){ // 數量減 1
-    let products = cardData.slice()
-    products.find( product => product.id === id).quantity -= 1
-    setCardData(products)
-  }
-  function handleProduct (e){ 
-    const target = e.target
-    const id = target.closest('.product-container').dataset.id //找父層 (.product-container) 元素的 dataset.id
-    if(target.dataset.action === "plus"){ 
-      plusQuantity(id) 
-    }else if(target.dataset.action === "minus"){
-      checkQuantity(id) ? minusQuantity(id) : setCardData(filterCartData(id))
+  function handleMinus (id, quantity){
+    if(quantity <= 1){ //如果數量 <= 1 再減 1 就沒了 , 所以要刪除
+      setProducts(
+        products.filter( p => p.id !== id)
+      )
+    }else{
+      setProducts(
+        products.map( p => {
+          if(p.id === id){
+            p.quantity -= 1
+          }
+          return p
+        })
+      )
     }
-    total= getTotal() //加減完都需要計算一次 total 
   }
+
 
   return(
     <section className="cart-container col col-lg-5 col-sm-12">
       <h3 className="cart-title">購物籃</h3>
-      <section className="product-list col col-12" data-total-price={0}>
-        {cardData.map( item => 
+      <section className="product-list col col-12">
+        {products.map( p => 
           <div
-            key={item.id}
-            data-id={item.id} // 新增 , map 出來的 key 無法被取得 , 所以自己設置一個記錄 id 
+            key={p.id}
             className="product-container col col-12"
-            onClick={handleProduct}
           >
-            <img className="img-container" src={item.img} alt={item.name} />
+            <img className="img-container" src={p.img} alt={p.name} />
             <div className="product-info">
-              <div className="product-name">{item.name}</div>
+              <div className="product-name">{p.name}</div>
               <div className="product-control-container">
                 <div className="product-control">
-                  <span 
-                    className="product-action minus"
-                    data-action="minus" // 新增 , 方便判斷點擊的是加或減
-                  >
-                    <MinusSvg />
+                  <span className="product-action minus">
+                    {/* 監聽 onClick , 傳入參數 id , 數量 */}
+                    <MinusSvg onClick={() => handleMinus(p.id, p.quantity)}/>
                   </span>
-                  <span className="product-count">{item.quantity}</span>
-                  <span 
-                    className="product-action plus"
-                    data-action="plus" // 新增 , 方便判斷點擊的是加或減
-                  >
-                    <PlusSvg />
+                  <span className="product-count">{p.quantity}</span>
+                  <span className="product-action plus">
+                    {/* 監聽 onClick , 傳入參數 id */}
+                    <PlusSvg onClick={() => handlePlus(p.id)}/>
                   </span>
                 </div>
               </div>
-              <div className="price">{item.price}</div>
+              <div className="price">{p.price}</div>
             </div>
           </div>)}
       </section>
@@ -85,7 +77,7 @@ function Cart (){
       </section>
       <section className="cart-info total col col-12">
         <div className="text">小計</div>
-        <div className="price">{ total }</div>
+        <div className="price">{total}</div>
       </section>
     </section>
   )
