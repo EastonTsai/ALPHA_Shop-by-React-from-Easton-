@@ -1,21 +1,16 @@
-import { useState } from 'react'
+import { useContext } from 'react'
 
 import { ReactComponent as MinusSvg } from "../../files/icons/minus.svg";
 import { ReactComponent as PlusSvg } from "../../files/icons/plus.svg";
-import { cartData } from '../../data/cartData'
-
+import { MainContext } from '../Context/MainContext';
 
 function Cart (){
-  const [ products, setProducts ] = useState(cartData)
-  const total = getTotal()
+  const [ products, setProducts ] = 
+  useContext(MainContext).cart.data
+  const total = useContext(MainContext).cart.total
+
   
-  function getTotal (){//從 products 裡面計算總價 (小計)
-    let price = 0
-    products.forEach( p => {
-      price += ( p.price * p.quantity )
-    })
-    return price
-  }
+  
   function handlePlus (id){
     setProducts(
       products.map( p => {

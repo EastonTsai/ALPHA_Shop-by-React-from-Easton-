@@ -1,9 +1,14 @@
 
 import {ReactComponent as RightArrowSvg} from '../../files/icons/right-arrow.svg'
 import {ReactComponent as LeftArrowSvg} from '../../files/icons/left-arrow.svg'
+import { MainContext } from '../Context/MainContext'
+import { useContext } from 'react'
 
 
 function ProgressControl ({currentStep}){ // 這裡接到 Main 傳來的 props
+  const creditCard = useContext(MainContext).formCreditCard[0]
+  const [products, setProducts] = useContext(MainContext).cart.data
+  const total = useContext(MainContext).cart.total
 
   function handlePrev (e){
     e.preventDefault() 
@@ -14,7 +19,12 @@ function ProgressControl ({currentStep}){ // 這裡接到 Main 傳來的 props
     currentStep.set( () => { return currentStep.step + 1 } )
   }
   function stepComplete (){
-    alert('購買完成')
+    console.log('持卡人姓名: ', creditCard.name)
+    console.log('信用卡卡號: ', creditCard.number)
+    console.log('信用卡使用期限: ', creditCard.date)
+    console.log('CVC 碼 : ', creditCard.cvc)
+    console.log('消費總金額: ', total)
+    setProducts(products.splice())
     currentStep.set(1)  // 把步驟恢復到第一步
   }
 
